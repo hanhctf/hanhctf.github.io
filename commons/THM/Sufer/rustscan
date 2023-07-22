@@ -1,0 +1,32 @@
+# Nmap 7.94 scan initiated Tue Jun  6 07:14:32 2023 as: nmap -vvv -p 22,80 -sCV -oN rustscan 10.10.83.249
+Nmap scan report for 10.10.83.249
+Host is up, received syn-ack (0.24s latency).
+Scanned at 2023-06-06 07:14:33 EDT for 15s
+
+PORT   STATE SERVICE REASON  VERSION
+22/tcp open  ssh     syn-ack OpenSSH 8.2p1 Ubuntu 4ubuntu0.4 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   3072 77:f3:78:75:98:38:e8:f6:6d:a7:24:3c:91:49:d6:0e (RSA)
+| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMOjY1e+L8CeyCzhCT6n7Op+Omv14YARzoMZJsIl6VO4Zrr11/0QTe2hPQzz6cg7tCfshKgZ6N4tL8SvcSXEVnG5xRboZ5f8HCR1tBuob4E6oULES/WPQ05G+hwIOK5mMW6UgfOqCfXUgqRDwWZ6ir9/W+9sICKVJgU3EI0U2IijI+xCeJTMjBdADfHGXPX2FiBbbMPVm+cxseeBcmt1Cd7LbGdYVBwH324dZ10AyaZlVLD7fbHmWJaVQoCeaLLC0ZYuA+dLDttLKtKDO9gUyqEWaRJL3siwVth3IriYXhprISpEc1at9XnlqYnCgl9KnO5xla/0WkNaIg3OfYGDPbSh1QZA97+4KfPStBm4xeHEw9/+oA6RZ0XOWVAlvuA6M/wJAhSEVy8CpOC2+szc5cnIqDBWQbFy+ZiwoBhofGmbBJ7FMtRNRPuB51bZI6a/xgLC8L7lef39bxS7dgVFrJ4GfGJJGGJt/CWP8LVnBiRVHpe9ZE3ziG44ku9E1K2tU=
+|   256 f2:43:0d:91:6a:34:70:13:be:47:76:95:6b:23:94:2b (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHY1/Lh72sdMYZ2gQu/hfQ2TREttlq4zrFSvsv9wuskfSPyhqDxiQWimfUhGmO/igXE5Kl1gEx6jEAaGPnjvnp0=
+|   256 c6:70:46:ed:f5:73:73:b5:6f:33:9a:89:2e:c1:d0:5c (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOfUZHLLIJhsLcAf86kCj0i1RvfncFobhrRClfz9duSo
+80/tcp open  http    syn-ack Apache httpd 2.4.38 ((Debian))
+|_http-server-header: Apache/2.4.38 (Debian)
+| http-robots.txt: 1 disallowed entry 
+|_/backup/chat.txt
+| http-title: 24X7 System+
+|_Requested resource was /login.php
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-favicon: Unknown favicon MD5: CFFCD51EFA49AB1AC1D8AC6E36462235
+| http-cookie-flags: 
+|   /: 
+|     PHPSESSID: 
+|_      httponly flag not set
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Jun  6 07:14:48 2023 -- 1 IP address (1 host up) scanned in 15.81 seconds
