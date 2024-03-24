@@ -20,7 +20,7 @@ With Nmap, see 2 ports open
 ***View the source of the home page, we see 2 Js files.***  
 Check domain vulnnet.thm in them. We found something interesting.
 
-1. Subdomain <http://broadcast.vulnnet.thm>
+1. Subdomain ```<http://broadcast.vulnnet.thm>```
 2. A path URL `referer` ```http://vulnnet.thm/index.php?referer=``` ==> LFI
 
 ![](/commons/THM/Vulnnet1/2.LFI-vuln.png)  
