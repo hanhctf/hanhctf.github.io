@@ -1,0 +1,97 @@
+# Nmap 7.93 scan initiated Wed May 24 23:50:57 2023 as: nmap -vvv -p 22,135,139,445,3389,5985,8888,47001,49664,49665,49667,49668,49669,49670,49671 -sCV -Pn -oN rustscan 10.10.218.64
+Nmap scan report for 10.10.218.64
+Host is up, received user-set (0.22s latency).
+Scanned at 2023-05-24 23:51:09 EDT for 70s
+
+PORT      STATE SERVICE       REASON  VERSION
+22/tcp    open  ssh           syn-ack OpenSSH for_Windows_7.7 (protocol 2.0)
+| ssh-hostkey: 
+|   2048 2b17d88a1e8c99bc5bf53d0a5eff5e5e (RSA)
+| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBae1NsdsMcZJNQQ2wjF2sxXK2ZF3c7qqW3TN/q91pWiDee3nghS1J1FZrUXaEj0wnAAAbYRg5vbRZRP9oEagBwfWG3QJ9AO6s5UC+iTjX+YKH6phKNmsY5N/LKY4+2EDcwa5R4uznAC/2Cy5EG6s7izvABLcRh3h/w4rVHduiwrueAZF9UjzlHBOxHDOPPVtg+0dniGhcXRuEU5FYRA8/IPL8P97djscu23btk/hH3iqdQWlC9b0CnOkD8kuyDybq9nFaebAxDW4XFj7KjCRuuu0dyn5Sr62FwRXO4wu08ePUEmJF1Gl3/fdYe3vj+iE2yewOFAhzbmFWEWtztjJb
+|   256 3cc0fdb5c157ab75ac8110aee298120d (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOGl51l9Z4Mg4hFDcQz8v6XRlABMyVPWlkEXrJIg53piZhZ9WKYn0Gi4fKkzo3blDAsdqpGFQ11wwocBCSJGjQU=
+|   256 e9f030bee6cfeffe2d1421a0ac457b70 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOHw9uTZkIMEgcZPW9Z28Mm+FX66+hkxk+8rOu7oI6J9
+135/tcp   open  msrpc         syn-ack Microsoft Windows RPC
+139/tcp   open  netbios-ssn   syn-ack Microsoft Windows netbios-ssn
+445/tcp   open  microsoft-ds? syn-ack
+3389/tcp  open  ms-wbt-server syn-ack Microsoft Terminal Services
+|_ssl-date: 2023-05-25T03:52:18+00:00; 0s from scanner time.
+| ssl-cert: Subject: commonName=DEV-DATASCI-JUP
+| Issuer: commonName=DEV-DATASCI-JUP
+| Public Key type: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2023-03-12T11:46:50
+| Not valid after:  2023-09-11T11:46:50
+| MD5:   1671b1902eb6b15f0c3fab16d3e66582
+| SHA-1: c007197add30f17f2bdb65f81804fc6fd081c7c9
+| -----BEGIN CERTIFICATE-----
+| MIIC4jCCAcqgAwIBAgIQPvhxvXPCnJtIgyPRvn3WzjANBgkqhkiG9w0BAQsFADAa
+| MRgwFgYDVQQDEw9ERVYtREFUQVNDSS1KVVAwHhcNMjMwMzEyMTE0NjUwWhcNMjMw
+| OTExMTE0NjUwWjAaMRgwFgYDVQQDEw9ERVYtREFUQVNDSS1KVVAwggEiMA0GCSqG
+| SIb3DQEBAQUAA4IBDwAwggEKAoIBAQD1iFFVyhggpi7wL6i/UpivF4ynWEUALMJh
+| v8t3ypgM+Vrdp7sqDQciG7YMfGhYyz3Za4G03Ppgi+DUu/2qsYfGJbllz8IRaelq
+| 5G5DPGSy0lYItHbWEvPbPSWTcEOrxQMIv98lBx5fHbmzIP1mEeIiS7p8bpWGfFuR
+| Y/zvTOOWRHcT09/z+6YDdCTztLIgtrE+ZFW1yNUYxqCPl6EdKutmIzDUCDFUyvhq
+| jOuv1R3M9XGPGomb99tAdPWQeXwjQfNrJdEsJ0DBz3D9T2pbfVwKINfDt1qCQfPO
+| zu9v8OZhe+BYvS6289GNmCbiaCVbeJK2yokPdMFx4uLIT85U7IKBAgMBAAGjJDAi
+| MBMGA1UdJQQMMAoGCCsGAQUFBwMBMAsGA1UdDwQEAwIEMDANBgkqhkiG9w0BAQsF
+| AAOCAQEAiVcJyTne2cl+bKhmctqIva2DA/v9P0odeZe1hO8TG7J4UZGeK5bOqwdE
+| bPDKBuxD+QYXWLm+/eHgKKMwKemYp4iDcIMGfb5UgzkRe8RaI5kKiiPQSarFKIZe
+| WphDWZrLDo9IN58b081R4k82IfGv7yXtIjZcral4fCEHhhTdVE2CvHvE1JGXSWbY
+| NHoufyrjizsaLHAchdnuHgaz+cgcFgR/hD61vQpc8pW+v6xDNVtMFVdv7lLtbWov
+| /dcC6Yd2jtk8sP7ue7K+FOhLaw9UDbji3XCXn0FoJwKBza/K8smP0M/3fHIqoFA2
+| mc4b7D2CUHt9FNWIWyz9evlNAOixvg==
+|_-----END CERTIFICATE-----
+| rdp-ntlm-info: 
+|   Target_Name: DEV-DATASCI-JUP
+|   NetBIOS_Domain_Name: DEV-DATASCI-JUP
+|   NetBIOS_Computer_Name: DEV-DATASCI-JUP
+|   DNS_Domain_Name: DEV-DATASCI-JUP
+|   DNS_Computer_Name: DEV-DATASCI-JUP
+|   Product_Version: 10.0.17763
+|_  System_Time: 2023-05-25T03:52:09+00:00
+5985/tcp  open  http          syn-ack Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-title: Not Found
+|_http-server-header: Microsoft-HTTPAPI/2.0
+8888/tcp  open  http          syn-ack Tornado httpd 6.0.3
+| http-robots.txt: 1 disallowed entry 
+|_/ 
+| http-methods: 
+|_  Supported Methods: GET POST
+|_http-server-header: TornadoServer/6.0.3
+|_http-favicon: Unknown favicon MD5: 97C6417ED01BDC0AE3EF32AE4894FD03
+| http-title: Jupyter Notebook
+|_Requested resource was /login?next=%2Ftree%3F
+47001/tcp open  http          syn-ack Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+49664/tcp open  msrpc         syn-ack Microsoft Windows RPC
+49665/tcp open  msrpc         syn-ack Microsoft Windows RPC
+49667/tcp open  msrpc         syn-ack Microsoft Windows RPC
+49668/tcp open  msrpc         syn-ack Microsoft Windows RPC
+49669/tcp open  msrpc         syn-ack Microsoft Windows RPC
+49670/tcp open  msrpc         syn-ack Microsoft Windows RPC
+49671/tcp open  msrpc         syn-ack Microsoft Windows RPC
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| p2p-conficker: 
+|   Checking for Conficker.C or higher...
+|   Check 1 (port 62878/tcp): CLEAN (Couldn't connect)
+|   Check 2 (port 2581/tcp): CLEAN (Couldn't connect)
+|   Check 3 (port 23426/udp): CLEAN (Failed to receive data)
+|   Check 4 (port 33170/udp): CLEAN (Timeout)
+|_  0/4 checks are positive: Host is CLEAN or ports are blocked
+| smb2-time: 
+|   date: 2023-05-25T03:52:13
+|_  start_date: N/A
+|_clock-skew: mean: 0s, deviation: 0s, median: 0s
+| smb2-security-mode: 
+|   311: 
+|_    Message signing enabled but not required
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed May 24 23:52:19 2023 -- 1 IP address (1 host up) scanned in 81.64 seconds

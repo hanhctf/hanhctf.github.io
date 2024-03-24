@@ -1,0 +1,116 @@
+# Nmap 7.94 scan initiated Fri Jun 16 21:33:42 2023 as: nmap -vvv -p 7,21,22,23,80,8080 -sCV -oN rustscan 10.10.36.234
+Nmap scan report for 10.10.36.234
+Host is up, received syn-ack (0.22s latency).
+Scanned at 2023-06-16 21:33:43 EDT for 112s
+
+PORT     STATE SERVICE    REASON  VERSION
+7/tcp    open  echo       syn-ack
+21/tcp   open  ftp        syn-ack vsftpd 3.0.3
+22/tcp   open  ssh        syn-ack OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   3072 3d:0b:6f:e8:24:0d:28:91:8a:57:4d:13:b2:47:d9:44 (RSA)
+| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDCAEzEgoz8XABqBzA4NqG7tY9tmWdAzscmjgOVkCGnBhiJUH0RZKJwexacXshh7jd+SreQmh+zRzcpwvVifjplBYyGfSk8E3oa8kwgKSGBJmr1YzcG2UvFx0wCwNxzAXbiah40XEmZtybhNSO/jZZSAY9/xs7UPL05Nd2I2VBF06pPPonwfntImq//j1rpcoTCqeNIahMnkcsyNG9F9y6SxISfGjP7j7nTJ0LHctW8zcSwLt9BZxbr8Rl44t2LaH6TtciLf4DxbtOSaIxOGaymmkN4LIeEeuiwKbfLIaaeWsTP4td5lo4CQA9hjLtBbCbNV1vxi6lLGBTRuIN6Ulv2OeeyJ2EEXs2+2ZN68XxrMOSQ6xEQyDi4Qj3ipMzcnNkZdm1PCxlOTZYFPXR8v/KsZf9x09QePReUmkVyvhFtSt059wYbio1EQl8NJXt2XqbQ43eXkDOOnqAuaNZvAq8fGagW7Yw5QD4XpX0BcpUODR7aB6nVH8g7NwsKhOLKKs0=
+|   256 9a:84:1c:a3:e3:7a:8f:4a:bb:6e:89:2d:f6:21:d5:f2 (ECDSA)
+| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCxO7ZoDPVxGbA/eW697KUh+sntYBYAxtkM5shrVbtkjhoS9RrsQhXvnjUOtt0Snvi6FiPcRsghK/ssYYsu3B2Y=
+|   256 22:30:9e:17:08:45:9c:a8:73:d3:5a:3c:d7:5b:da:f3 (ED25519)
+|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGii5ES9kD5kHbmntC53F2IAzqKMlaTaqSdUkzEV1aYM
+23/tcp   open  telnet     syn-ack Linux telnetd
+80/tcp   open  http       syn-ack Apache httpd 2.4.41 ((Ubuntu))
+| http-methods: 
+|_  Supported Methods: OPTIONS HEAD GET POST
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+|_http-title: Site doesn't have a title (text/html).
+8080/tcp open  http-proxy syn-ack Werkzeug/2.2.2 Python/3.8.10
+| http-methods: 
+|_  Supported Methods: GET OPTIONS HEAD
+| http-title: Site doesn't have a title (text/html; charset=utf-8).
+|_Requested resource was /login
+|_http-server-header: Werkzeug/2.2.2 Python/3.8.10
+| fingerprint-strings: 
+|   FourOhFourRequest: 
+|     HTTP/1.1 404 NOT FOUND
+|     Server: Werkzeug/2.2.2 Python/3.8.10
+|     Date: Sat, 17 Jun 2023 01:33:53 GMT
+|     Content-Type: text/html; charset=utf-8
+|     Content-Length: 207
+|     Connection: close
+|     <!doctype html>
+|     <html lang=en>
+|     <title>404 Not Found</title>
+|     <h1>Not Found</h1>
+|     <p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+|   GetRequest: 
+|     HTTP/1.1 302 FOUND
+|     Server: Werkzeug/2.2.2 Python/3.8.10
+|     Date: Sat, 17 Jun 2023 01:33:52 GMT
+|     Content-Type: text/html; charset=utf-8
+|     Content-Length: 199
+|     Location: /login
+|     Connection: close
+|     <!doctype html>
+|     <html lang=en>
+|     <title>Redirecting...</title>
+|     <h1>Redirecting...</h1>
+|     <p>You should be redirected automatically to the target URL: <a href="/login">/login</a>. If not, click the link.
+|   HTTPOptions: 
+|     HTTP/1.1 200 OK
+|     Server: Werkzeug/2.2.2 Python/3.8.10
+|     Date: Sat, 17 Jun 2023 01:33:52 GMT
+|     Content-Type: text/html; charset=utf-8
+|     Allow: GET, OPTIONS, HEAD
+|     Content-Length: 0
+|     Connection: close
+|   RTSPRequest: 
+|     <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+|     "http://www.w3.org/TR/html4/strict.dtd">
+|     <html>
+|     <head>
+|     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+|     <title>Error response</title>
+|     </head>
+|     <body>
+|     <h1>Error response</h1>
+|     <p>Error code: 400</p>
+|     <p>Message: Bad request version ('RTSP/1.0').</p>
+|     <p>Error code explanation: HTTPStatus.BAD_REQUEST - Bad request syntax or unsupported method.</p>
+|     </body>
+|_    </html>
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port8080-TCP:V=7.94%I=7%D=6/16%Time=648D0D7F%P=x86_64-pc-linux-gnu%r(Ge
+SF:tRequest,18A,"HTTP/1\.1\x20302\x20FOUND\r\nServer:\x20Werkzeug/2\.2\.2\
+SF:x20Python/3\.8\.10\r\nDate:\x20Sat,\x2017\x20Jun\x202023\x2001:33:52\x2
+SF:0GMT\r\nContent-Type:\x20text/html;\x20charset=utf-8\r\nContent-Length:
+SF:\x20199\r\nLocation:\x20/login\r\nConnection:\x20close\r\n\r\n<!doctype
+SF:\x20html>\n<html\x20lang=en>\n<title>Redirecting\.\.\.</title>\n<h1>Red
+SF:irecting\.\.\.</h1>\n<p>You\x20should\x20be\x20redirected\x20automatica
+SF:lly\x20to\x20the\x20target\x20URL:\x20<a\x20href=\"/login\">/login</a>\
+SF:.\x20If\x20not,\x20click\x20the\x20link\.\n")%r(HTTPOptions,C7,"HTTP/1\
+SF:.1\x20200\x20OK\r\nServer:\x20Werkzeug/2\.2\.2\x20Python/3\.8\.10\r\nDa
+SF:te:\x20Sat,\x2017\x20Jun\x202023\x2001:33:52\x20GMT\r\nContent-Type:\x2
+SF:0text/html;\x20charset=utf-8\r\nAllow:\x20GET,\x20OPTIONS,\x20HEAD\r\nC
+SF:ontent-Length:\x200\r\nConnection:\x20close\r\n\r\n")%r(RTSPRequest,1F4
+SF:,"<!DOCTYPE\x20HTML\x20PUBLIC\x20\"-//W3C//DTD\x20HTML\x204\.01//EN\"\n
+SF:\x20\x20\x20\x20\x20\x20\x20\x20\"http://www\.w3\.org/TR/html4/strict\.
+SF:dtd\">\n<html>\n\x20\x20\x20\x20<head>\n\x20\x20\x20\x20\x20\x20\x20\x2
+SF:0<meta\x20http-equiv=\"Content-Type\"\x20content=\"text/html;charset=ut
+SF:f-8\">\n\x20\x20\x20\x20\x20\x20\x20\x20<title>Error\x20response</title
+SF:>\n\x20\x20\x20\x20</head>\n\x20\x20\x20\x20<body>\n\x20\x20\x20\x20\x2
+SF:0\x20\x20\x20<h1>Error\x20response</h1>\n\x20\x20\x20\x20\x20\x20\x20\x
+SF:20<p>Error\x20code:\x20400</p>\n\x20\x20\x20\x20\x20\x20\x20\x20<p>Mess
+SF:age:\x20Bad\x20request\x20version\x20\('RTSP/1\.0'\)\.</p>\n\x20\x20\x2
+SF:0\x20\x20\x20\x20\x20<p>Error\x20code\x20explanation:\x20HTTPStatus\.BA
+SF:D_REQUEST\x20-\x20Bad\x20request\x20syntax\x20or\x20unsupported\x20meth
+SF:od\.</p>\n\x20\x20\x20\x20</body>\n</html>\n")%r(FourOhFourRequest,184,
+SF:"HTTP/1\.1\x20404\x20NOT\x20FOUND\r\nServer:\x20Werkzeug/2\.2\.2\x20Pyt
+SF:hon/3\.8\.10\r\nDate:\x20Sat,\x2017\x20Jun\x202023\x2001:33:53\x20GMT\r
+SF:\nContent-Type:\x20text/html;\x20charset=utf-8\r\nContent-Length:\x2020
+SF:7\r\nConnection:\x20close\r\n\r\n<!doctype\x20html>\n<html\x20lang=en>\
+SF:n<title>404\x20Not\x20Found</title>\n<h1>Not\x20Found</h1>\n<p>The\x20r
+SF:equested\x20URL\x20was\x20not\x20found\x20on\x20the\x20server\.\x20If\x
+SF:20you\x20entered\x20the\x20URL\x20manually\x20please\x20check\x20your\x
+SF:20spelling\x20and\x20try\x20again\.</p>\n");
+Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Fri Jun 16 21:35:35 2023 -- 1 IP address (1 host up) scanned in 112.93 seconds

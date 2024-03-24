@@ -1,0 +1,15 @@
+# Nmap 7.93 scan initiated Wed May 10 08:17:42 2023 as: nmap -vvv -p 22,2222,8022 -sCV -Pn -oN rustscan 10.10.23.195
+Nmap scan report for containme.thm (10.10.23.195)
+Host is up, received user-set (0.27s latency).
+Scanned at 2023-05-10 08:17:42 EDT for 66s
+
+PORT     STATE SERVICE       REASON  VERSION
+22/tcp   open  ssh?          syn-ack
+|_ssh-hostkey: ERROR: Script execution failed (use -d to debug)
+2222/tcp open  EtherNetIP-1? syn-ack
+|_ssh-hostkey: ERROR: Script execution failed (use -d to debug)
+8022/tcp open  oa-system?    syn-ack
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Wed May 10 08:18:48 2023 -- 1 IP address (1 host up) scanned in 66.07 seconds
