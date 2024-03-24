@@ -77,18 +77,20 @@ PORT   STATE SERVICE VERSION
 ## Web enumeratio
 
 Login form with username and password provided.  
-Try brute-force with `Intruder' --> After 10 requests, the website ask math captcha. 
+Try brute-force with `Intruder' --> After 10 requests, the website ask math captcha.
 
 Time to write a script solve math captcha to brute-force
 
 View `Hint'  
+
 ```
 Look at the error messages from the application when attempting to log in. Enumerate to discover the username (firstname). Then enumerate once more to discover the password.
 ```
 
 ### Brute-force username first
 
-***ignore proxy if you dont open burpsuite***   
+***ignore proxy if you dont open burpsuite***
+
 ```python
 import requests
 import re
@@ -144,7 +146,7 @@ for name in username.read().splitlines():
 
 ### Brute-force password
 
-***ignore proxy if you dont open burpsuite***   
+***ignore proxy if you dont open burpsuite***
 
 ```python
 import requests
@@ -199,7 +201,7 @@ for passwd in password.read().splitlines():
 
 ### Brute-force both
 
-***ignore proxy if you dont open burpsuite***   
+***ignore proxy if you dont open burpsuite***
 
 ```python
 import requests

