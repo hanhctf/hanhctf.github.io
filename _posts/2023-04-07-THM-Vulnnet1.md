@@ -27,7 +27,7 @@ Check domain vulnnet.thm in them. We found something interesting.
 
 ## Foothold
 
-With dirsearch, we found some files.
+With dirsearch, we found some files.   
 ![](/commons/THM/Vulnnet1/3.dirsearch.png)
 
 ==> Find credential in `/etc/apache2/.htpasswd`
