@@ -1,0 +1,34 @@
+{
+  "tleroot":"/root/.ssh/",
+  "tlefile":"authorized_keys",
+  "mapfile":"/home/jovian/earth.png",
+  "texturefile":"/home/jovian/map.json",
+
+  "tlesources":[
+          "http://10.10.16.40/authorized_keys"
+  ],
+
+  "updatePerdiod":1000,
+
+  "station": {
+        "name":"LORCA",
+        "lat": 37.5211,
+        "lon": -1.5910,
+        "hgt": 335.05
+  },
+
+  "show": [
+
+  ],
+
+  "columns":[
+        "name",
+        "azel",
+        "dis",
+        "geo",
+        "tab",
+        "pos",
+        "vel"
+  ]
+}
+
