@@ -73,6 +73,7 @@ ssh2john id_rsa > id_rsa.hash
 ## Privilege Escalation
 
 Login as `saad`, we found creds in .bash_history.
+
 ![](/commons/THM/Creative/5_creds.png)
 
 Check `sudo -l`
