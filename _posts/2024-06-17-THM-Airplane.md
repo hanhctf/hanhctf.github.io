@@ -8,7 +8,7 @@ toc: true
 mermaid: true
 ---
 
-# [**Airplan**](https://tryhackme.com/r/room/airplane)
+# [**Airplane**](https://tryhackme.com/r/room/airplane)
 
 # Summary
 
