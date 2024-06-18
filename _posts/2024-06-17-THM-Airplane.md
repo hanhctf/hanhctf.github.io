@@ -3,7 +3,7 @@ title: THM Airplane
 author: hanhctf
 date: 2024-06-17 12:00:00 +0700
 categories: [Write-up, THM]
-tags: [LFI]
+tags: [LFI, GDBServer]
 toc: true
 mermaid: true
 ---
@@ -12,7 +12,7 @@ mermaid: true
 
 # Summary
 
-> - LFI in homepage.
+> - LFI on the homepage.
 > - App is running on port 6048 --> Exploit get revershell.
 > - Priv with SUID.
 
@@ -38,20 +38,20 @@ PORT     STATE SERVICE  REASON  VERSION
 
 ## Web Enumeration
 
-First of all, add `airplane.thm` to `/etc/hosts`.  
+First, add `airplane.thm` to `/etc/hosts`.  
 Access home page `http://airplane.thm:8000` will redirected to `http://airplane.thm:8000/?page=index.html`  
 
 ![](/commons/THM/Airplane/0_info.png)  
 
-With `Wappalyzer`, we see, app running on Flask web server.  
+With `Wappalyzer`, we see, the app running on the Flask web server.  
 `/?page=index.html` in URL, first in my mind LFI.  
 Check LFI `/etc/passwd` with `Burpsuite`, we can see 2 users `hudson` and `carlos`.  
 ![](/commons/THM/Airplane/1_LFI.png)  
 
-This is a lab, so try read `id_rsa` or `user.txt` but no luck.  
-In fact, in many cases we can use LFI to read id_rsa.  
+This is a lab, so try to read `id_rsa` or `user.txt` but no luck.  
+In fact, in many cases, we can use LFI to read id_rsa.  
 
-Check eviroment which app running.  
+Check the environment in which the app running.  
 ![](/commons/THM/Airplane/0_1_environ.png)  
 
 Go back to port 6048.  
@@ -61,11 +61,11 @@ Add request to Intruder.
 ![](/commons/THM/Airplane/2_request.png)  
 
 Set payload is number from 1 to 1000 with step 1.  
-After run Intruder, filter with `6048`. We found `gdbserver` is running on port 6048.  
+After running Intruder, filter with `6048`. We found `gdbserver` is running on port 6048.  
 
 ![](/commons/THM/Airplane/3_gdbserver.png)  
 
-We found GDBServer Exploition on [hacktricks](https://book.hacktricks.xyz/network-services-pentesting/pentesting-remote-gdbserver)  
+We found GDBServer Exploitation on [hacktricks](https://book.hacktricks.xyz/network-services-pentesting/pentesting-remote-gdbserver)  
 
 ```shell
 # Trick shared by @B1n4rySh4d0w
@@ -90,7 +90,7 @@ run
 # You should get your reverse-shell
 ```  
 
-We got revershell.  
+We got the reverse shell.  
 ![](/commons/THM/Airplane/4_user.png)  
 
 ***GOT USER.TXT FLAG***
@@ -102,7 +102,7 @@ Upload `linpeas.sh` (my favorite tool to check priv) to `/tmp`.
 We found SUID with `carlos` user.  
 ![](/commons/THM/Airplane/5_suid.png)  
 
-We can user [GTFOBIN-find](https://gtfobins.github.io/gtfobins/find/) to get `carlos` shell.  
+We can use [GTFOBIN-find](https://gtfobins.github.io/gtfobins/find/) to get `carlos` shell.  
 
 ```shell
 $ id
