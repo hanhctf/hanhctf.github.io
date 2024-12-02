@@ -55,7 +55,7 @@ Date/Time Original              : 2024
 Duration                        : 0:03:11 (approx)
 ```
 
-**Answer 1:** *`Tyler Ramsbey`*
+**Answer 1:** *`...`*
 
 **Question 2:The malicious PowerShell script sends stolen info to a C2 server. What is the URL of this C2 server?**
 
@@ -123,7 +123,7 @@ Search-ForBrowserCredentials
 Send-InfoToC2Server
 ```
 
-**Answer 2:** *`http://papash3ll.thm/data`*
+**Answer 2:** *...*
 
 **Question 3: Who is M.M? Maybe his Github profile page would provide clues?**
 
@@ -131,7 +131,7 @@ Access the Github profile of [MM-WarevilleTHM](https://github.com/MM-WarevilleTH
 
 ![](/commons/THM/AoC2024/Day1/0_github.png)
 
-**Answer 3:** *`Mayor Malware`*
+**Answer 3:** *`...`*
 
 **Question 4: What is the number of commits on the GitHub repo where the issue was raised?**
 
@@ -148,4 +148,4 @@ To search effectively, we can look for unique parts of the code that we could us
 
 ![](/commons/THM/AoC2024/Day1/1_github.png)
 
-**Answer 4:** *`1`*
+**Answer 4:** *`...`*
