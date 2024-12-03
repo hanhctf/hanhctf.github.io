@@ -123,7 +123,7 @@ Search-ForBrowserCredentials
 Send-InfoToC2Server
 ```
 
-**Answer 2:** *...*
+**Answer 2:** *`...`*
 
 **Question 3: Who is M.M? Maybe his Github profile page would provide clues?**
 
@@ -149,3 +149,72 @@ To search effectively, we can look for unique parts of the code that we could us
 ![](/commons/THM/AoC2024/Day1/1_github.png)
 
 **Answer 4:** *`...`*
+
+# Day 2: One man's false positive is another man's potpourri
+
+How to use Elastic SIEM.
+
+1. Setup time of the activity occurred.
+2. Set up some fields according to the information you want to looking.
+
+    Since we are looking for events related to PowerShell, we would like to know the following details about the logs.
+    - The hostname where the command was run. We can use the `host.hostname` field as a column for that.
+    - The user who performed the activity. We can add the `user.name` field as a column for this information.
+    - We will add the `event.category` field to ensure we are looking at the correct event category.
+    - To know the actual commands run using PowerShell, we can add the `process.command_line` field.
+    - Finally, to know if the activity succeeded, we will add the `event.outcome` field.
+    - Let's also add the `source.ip` field as a column to find out who ran the PowerShell commands.
+
+3. Filter for value.
+4. 
+
+
+**Question 1: What is the name of the account causing all the failed login attempts?**
+
+Add 2 filters:
+
+1. event.category: ...
+2. event.outcome: ...
+
+**Answer 1:** *`...`*
+
+**Question 2: How many failed logon attempts were observed?**
+
+Add 3 filters:
+
+1. user.name: ...
+2. event.category: ...
+3. event.outcome: ...
+
+**Answer 2:** *`...`*
+
+**Question 3: What is the IP address of Glitch?**
+
+Add 4 filters:
+
+1. user.name: ...
+2. event.category: ...
+3. event.outcome: ...
+4. NOT source.ip: ...
+
+**Answer 3:** *`...`*
+
+**Question 4: When did Glitch successfully logon to ADM-01? Format: MMM D, YYYY HH:MM:SS.SSS**
+
+Add 4 filters:
+
+1. user.name: ...
+2. event.category: ...
+3. NOT source.ip: ...
+4. event.outcome: success
+**Answer 4:** *`...`*
+
+**Question 5: What is the decoded command executed by Glitch to fix the systems of Wareville?**
+
+Add 2 filters:
+
+1. user.name: ...
+2. NOT source.ip: ...
+3. Decode powershell encode
+
+**Answer 5:** *`...`*
