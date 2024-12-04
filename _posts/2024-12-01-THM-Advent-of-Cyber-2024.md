@@ -218,3 +218,32 @@ Add 2 filters:
 3. Decode powershell encode
 
 **Answer 5:** *`...`*
+
+# Day 3: Even if I wanted to go, their vulnerabilities wouldn't allow it
+
+- Learn about Log analysis and tools like ELK.
+- Learn about KQL and how it can be used to investigate logs using ELK.
+- Learn about RCE (Remote Code Execution), and how this can be done via insecure file upload.
+
+
+**Question 1: BLUE: Where was the web shell uploaded to?**
+
+Check message: *.php easy to find directory of .php file uploaded.
+
+**Answer 1:** *`...`*
+
+**Question 2: BLUE: What IP address accessed the web shell?**
+
+Trace follow file .php uploaded, we can see IP of web shell.
+
+**Answer 2:** *`...`*
+
+**Question 3: RED: What is the contents of the flag.txt?**
+
+1. Add `MachineIP frostypines.thm` to `/etc/hosts`.
+2. Fuzz with `ffuf` to find hidden directory.  
+We can access admin without any creds.
+3. Create new room with `shell.php`. In my case, I use `Pentestmonkey's reverse shell`.
+4. Got the flag.txt
+
+**Answer 3:** *`...`*
