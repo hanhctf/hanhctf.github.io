@@ -12,7 +12,7 @@ mermaid: true
 
 Hello all, welcome back to the Advent of Cyber 2024.
 
-# Day 1: Maybe SOC-mas music, he thought, doesn't come from a store?
+## Day 1: Maybe SOC-mas music, he thought, doesn't come from a store?
 
 **Question 1: Looks like the song.mp3 file is not what we expected! Run "exiftool song.mp3" in your terminal to find out the author of the song. Who is the author?**
 
@@ -150,7 +150,7 @@ To search effectively, we can look for unique parts of the code that we could us
 
 **Answer 4:** *`...`*
 
-# Day 2: One man's false positive is another man's potpourri
+## Day 2: One man's false positive is another man's potpourri
 
 How to use Elastic SIEM.
 
@@ -219,7 +219,7 @@ Add 2 filters:
 
 **Answer 5:** *`...`*
 
-# Day 3: Even if I wanted to go, their vulnerabilities wouldn't allow it
+## Day 3: Even if I wanted to go, their vulnerabilities wouldn't allow it
 
 - Learn about Log analysis and tools like ELK.
 - Learn about KQL and how it can be used to investigate logs using ELK.
