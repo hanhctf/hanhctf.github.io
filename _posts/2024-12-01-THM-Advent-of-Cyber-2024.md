@@ -247,3 +247,71 @@ We can access admin without any creds.
 4. Got the flag.txt
 
 **Answer 3:** *`...`*
+
+## Day 4:  I’m all atomic inside.
+
+- Learn how to identify malicious techniques using the MITRE ATT&CK framework.
+- Learn about how to use Atomic Red Team tests to conduct attack simulations.
+- Understand how to create alerting and detection rules from the attack tests.
+
+**Question 1: What was the flag found in the .txt file that is found in the same directory as the PhishingAttachment.xslm artefact?**
+
+1. Invoke-AtomicTest T1566.001 -ShowDetails --> show all test in Atmoic with ID.
+2. Execution command show in test number.
+
+**Answer 1:** *`...`*
+
+**Question 2: What ATT&CK technique ID would be our point of interest?**
+
+**Answer 2:** *`...`*
+
+**Question 3: What ATT&CK subtechnique ID focuses on the Windows Command Shell?**
+
+**Answer 3:** *`...`*
+
+**Question 4: What is the name of the Atomic Test to be simulated?**
+
+1. Run `Invoke-AtomicTest` ID -checkdetails.
+2. See all test number.  
+
+**Answer 4:** *`...`*
+
+**Question 5: What is the name of the file used in the test?**
+
+**Answer 5:** *`...`*
+
+**Question 6: What is the flag found from this Atomic Test?**
+
+1. Execution command in test number.
+**Answer 6:** *`...`*
+
+## Day 5: SOC-mas XX-what-ee?
+
+- Understand the basic concepts related to XML.
+- Explore XML External Entity (XXE) and its components.
+- Learn how to exploit the vulnerabilit.
+- Understand remediation measures.
+
+Using this payload:  
+
+```text
+<!--?xml version="1.0" ?-->
+<!DOCTYPE foo [<!ENTITY payload SYSTEM "/etc/hosts"> ]>
+<wishlist>
+  <user_id>1</user_id>
+     <item>
+       <product_id>&payload;</product_id>
+     </item>
+</wishlist>
+```
+
+**Question 1: What is the flag discovered after navigating through the wishes?**
+Brute-force number in this `"/var/www/html/wishes/wish_1.txt"`
+
+**Answer 1:** *`...`*
+
+**Question 2: What is the flag seen on the possible proof of sabotage?**
+
+Check the CHANGELOG
+
+**Answer 2:** *`...`*
