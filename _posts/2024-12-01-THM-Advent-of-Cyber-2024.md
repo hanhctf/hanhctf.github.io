@@ -315,3 +315,77 @@ Brute-force number in this `"/var/www/html/wishes/wish_1.txt"`
 Check the CHANGELOG
 
 **Answer 2:** *`...`*
+
+## Day 6: If I can't find a nice malware to use, I'm not going.
+
+- Analyze malware behaviour using sandbox tools.
+- Explore how to use YARA rules to detect malicious patterns.
+- LLearn about various malware evasion techniques.
+- Implement an evasion technique to bypass YARA rule detection.
+
+**Question 1: What is the flag displayed in the popup window after the EDR detects the malware?**
+
+**Answer 1:** *`...`*
+
+**Question 2: What is the flag found in the malstrings.txt document after running floss.exe, and opening the file in a text editor?**
+
+**Answer 2:** *`...`*
+
+## Day 7: Oh, no. I'M SPEAKING IN CLOUDTRAIL!
+
+```shell
+jq -r '["Event_Time", "Event_Source", "Event_Name", "User_Name", "Source_IP"], (.Records[] | [.eventTime, .eventSource, .eventName, .userIdentity.userName // "N/A", .sourceIPAddress // "N/A"]) | @tsv' cloudtrail_log.json | column -t -s $'\t'
+```
+
+**Question 1: What is the other activity made by the user glitch aside from the ListObject action?**
+
+**Answer 1:** *`...`*
+
+**Question 2: What is the source IP related to the S3 bucket activities of the user glitch?**
+
+**Answer 2:** *`...`*
+
+**Question 3: Based on the eventSource field, what AWS service generates the ConsoleLogin event?**
+
+**Answer 3:** *`...`*
+
+**Question 4: When did the anomalous user trigger the ConsoleLogin event?**
+
+**Answer 4:** *`...`*
+
+**Question 5: What was the name of the user that was created by the mcskidy user?**
+
+```shell
+jq '.Records[] |select(.eventSource=="iam.amazonaws.com" and .eventName== "CreateUser")' cloudtrail_log.json
+```
+**Answer 5:** *`...`*
+
+**Question 6: What type of access was assigned to the anomalous user??**
+
+```shell
+jq '.Records[] | select(.eventSource=="iam.amazonaws.com" and .eventName== "AttachUserPolicy")' cloudtrail_log.json
+```
+
+**Answer 6:** *`...`*
+
+**Question 7: Which IP does Mayor Malware typically use to log into AWS?**
+
+**Answer 7:** *`...`*
+
+**Question 8: Which IP does Mayor Malware typically use to log into AWS?**
+
+**Answer 8:** *`...`*
+
+**Question 9: What is the bank account number owned by Mayor Malware?**
+
+**Answer 9:** *`...`*
+
+## Day 8: Shellcodes of the world, unite!
+
+- Grasp the fundamentals of writing shellcode.
+- Generate shellcode for reverse shells.
+- Executing shellcode with PowerShell.
+
+**Question 1: What is the bank account number owned by Mayor Malware?**
+
+**Answer 1:** *`...`*
